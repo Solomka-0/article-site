@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -15,10 +17,14 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [ArticleController::class, 'index'])->name('home');
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.list');
+Route::get('/articles/{slug}', [ArticleController::class, 'show'])->name('articles.show');
 
-Route::get('/', function () {
-    return inertia('Home');
-})->name('home');
+Route::post('/articles/{id}/increment-likes', [ArticleController::class, 'incrementLikes'])->name('articles.incrementLikes');
+Route::post('/articles/{id}/increment-views', [ArticleController::class, 'incrementViews'])->name('articles.incrementViews');
+
+Route::post('/articles/{id}/comments', [CommentController::class, 'store'])->name('comments.store');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
