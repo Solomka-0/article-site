@@ -3,22 +3,26 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Services\ArticleService;
 use Illuminate\Support\Facades\Redis;
 
-class ArticleStatsController extends Controller
+class ArticleController extends Controller
 {
+    public function __construct(
+       protected ArticleService $articleService
+    ) {
+    }
+
     public function incrementLikes($articleId)
     {
-        $newLikesCount = Redis::incr("article:{$articleId}:likes");
+        $newLikesCount = $this->articleService->incrementLikes($articleId);
 
         return response()->json(['likes_count' => $newLikesCount]);
     }
 
     public function incrementViews($articleId)
     {
-        // Атомарно увеличиваем счётчик просмотров в Redis
-        $newViewsCount = Redis::incr("article:{$articleId}:views");
+        $newViewsCount = $this->articleService->incrementViews($articleId);
 
         return response()->json(['views_count' => $newViewsCount]);
     }

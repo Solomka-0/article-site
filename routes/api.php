@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\ArticleStatsController;
+use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\CommentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/articles/{article}/increment-likes', [ArticleStatsController::class, 'incrementLikes'])->name('articles.incrementLikes');
-Route::post('/articles/{article}/increment-views', [ArticleStatsController::class, 'incrementViews'])->name('articles.incrementViews');
+Route::post('/articles/{article}/increment-likes', [ArticleController::class, 'incrementLikes'])->name('articles.incrementLikes');
+Route::post('/articles/{article}/increment-views', [ArticleController::class, 'incrementViews'])->name('articles.incrementViews');
 Route::post('/articles/{article}/comments', [CommentController::class, 'store'])->name('comments.store');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
